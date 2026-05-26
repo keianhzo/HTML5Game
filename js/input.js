@@ -41,8 +41,10 @@ class InputHandler {
 
   _getTouchPos(touch) {
     const rect = this.canvas.getBoundingClientRect();
-    const scaleX = this.canvas.width / rect.width;
-    const scaleY = this.canvas.height / rect.height;
+    // rect.width/height are CSS pixels; C.WIDTH/HEIGHT are logical game pixels.
+    // canvas.width is physical pixels (C.WIDTH * dpr), so we must NOT use it here.
+    const scaleX = C.WIDTH / rect.width;
+    const scaleY = C.HEIGHT / rect.height;
     return {
       x: (touch.clientX - rect.left) * scaleX,
       y: (touch.clientY - rect.top) * scaleY,

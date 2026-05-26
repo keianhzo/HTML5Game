@@ -2,12 +2,23 @@ window.addEventListener('load', () => {
   const canvas = document.getElementById('gameCanvas');
   const orientationOverlay = document.getElementById('orientationOverlay');
 
-  // DPI-aware canvas sizing
+  // Scale canvas CSS size to fit the viewport, preserving aspect ratio
+  const aspectRatio = C.WIDTH / C.HEIGHT;
+  let cssW, cssH;
+  if (window.innerWidth / window.innerHeight > aspectRatio) {
+    cssH = window.innerHeight;
+    cssW = Math.floor(cssH * aspectRatio);
+  } else {
+    cssW = window.innerWidth;
+    cssH = Math.floor(cssW / aspectRatio);
+  }
+  canvas.style.width = cssW + 'px';
+  canvas.style.height = cssH + 'px';
+
+  // Physical canvas resolution for crisp rendering on high-DPI screens
   const dpr = window.devicePixelRatio || 1;
   canvas.width = C.WIDTH * dpr;
   canvas.height = C.HEIGHT * dpr;
-  canvas.style.width = C.WIDTH + 'px';
-  canvas.style.height = C.HEIGHT + 'px';
 
   const ctx = canvas.getContext('2d', { alpha: false });
   ctx.scale(dpr, dpr);
